@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajay B J - FinTech Operations Expert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Playfair+Display:wght@700;900&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .text-stroke {
+            -webkit-text-stroke: 2px white;
+            color: transparent;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #ff2a2a 0%, #ff6666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link-underline {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link-underline::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #ff2a2a;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link-underline:hover::after {
+            width: 100%;
+        }
+
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .scroll-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .timeline-card {
+            transition: all 0.3s ease;
+        }
+
+        .timeline-card.active {
+            background: #ff2a2a;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 42, 42, 0.3);
+        }
+
+        .hamburger {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hamburger span {
+            width: 100%;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ff2a2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .preload-text {
+            font-size: clamp(60px, 15vw, 200px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            position: relative;
+        }
+
+        .preload-text-bg {
+            color: rgba(0, 0, 0, 0.2);
+            position: absolute;
+        }
+
+        .preload-text-fg {
+            color: white;
+            background: linear-gradient(to bottom, white 0%, white 50%, #ff2a2a 50%, #ff2a2a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+
+    <!-- PRELOADER -->
+    <div id="preloader" class="fixed inset-0 bg-red-500 flex items-center justify-center z-50">
+        <div class="text-center">
+            <div class="preload-text">
+                <div class="preload-text-bg">Ajay.</div>
+                <div class="preload-text-fg" id="preloadFill">Ajay.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="fixed w-full z-40 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="text-2xl font-black tracking-tighter">
+                Ajay<span class="text-red-500 animate-pulse">.</span>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex gap-8 items-center">
+                <a href="#hero" class="nav-link-underline text-white/80 hover:text-white transition">Home</a>
+                <a href="#about" class="nav-link-underline text-white/80 hover:text-white transition">About</a>
+                <a href="#experience" class="nav-link-underline text-white/80 hover:text-white transition">Experience</a>
+                <a href="#process" class="nav-link-underline text-white/80 hover:text-white transition">Process</a>
+                <a href="#contact" class="nav-link-underline text-white/80 hover:text-white transition">Contact</a>
+            </div>
+
+            <!-- CTA Button -->
+            <button onclick="document.getElementById('contactModal').style.display='flex'" class="hidden lg:block px-6 py-3 glass rounded-full text-white font-semibold hover:bg-white/20 transition transform hover:scale-105">
+                Hire Me
+            </button>
+
+            <!-- Mobile Menu Toggle -->
+            <div class="lg:hidden hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden lg:hidden fixed top-16 left-0 w-full bg-red-500 p-6 flex flex-col gap-4">
+            <a href="#hero" class="text-white font-semibold">Home</a>
+            <a href="#about" class="text-white font-semibold">About</a>
+            <a href="#experience" class="text-white font-semibold">Experience</a>
+            <a href="#process" class="text-white font-semibold">Process</a>
+            <a href="#contact" class="text-white font-semibold">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="relative w-full h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Image / Video -->
+        <div class="absolute inset-0">
+            <img id="heroBg" src="hero-bg.jpg" alt="Hero Background" class="w-full h-full object-cover">
+            <video id="heroVideo" class="hidden w-full h-full object-cover" controls>
+                <source src="reel.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="absolute inset-0 bg-black/40" id="overlay"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 max-w-7xl mx-auto px-6 w-full h-full flex items-center">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
+                <!-- Left Content -->
+                <div class="space-y-6">
+                    <div class="fade-in-up" style="animation-delay: 0.2s">
+                        <p class="text-red-500 font-semibold text-sm tracking-widest uppercase">Welcome</p>
+                    </div>
+
+                    <h1 class="text-5xl lg:text-7xl font-black leading-tight fade-in-up" style="animation-delay: 0.3s">
+                        Hi, I'm<br/>
+                        <span class="gradient-text">FinTech Ops Expert</span>
+                    </h1>
+
+                    <p class="text-gray-200 text-lg max-w-md fade-in-up" style="animation-delay: 0.4s">
+                        Payments & POS Operations professional. Merchant onboarding, compliance, seamless go-live. Currently scaling operations at Razorpay.
+                    </p>
+
+                    <div class="flex gap-4 pt-4 fade-in-up" style="animation-delay: 0.5s">
+                        <button onclick="document.getElementById('contactModal').style.display='flex'" class="px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-gray-100 transition transform hover:scale-105">
+                            Get In Touch
+                        </button>
+                        <a href="#experience" class="px-8 py-4 border-2 border-white text-white rounded-full font-bold glass hover:bg-white/20 transition transform hover:scale-105 flex items-center justify-center">
+                            View Work
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right - Play Button -->
+                <div class="flex items-center justify-center">
+                    <button onclick="playHeroVideo()" id="playBtn" class="w-32 h-32 rounded-full border-2 border-white/30 glass flex items-center justify-center hover:border-red-500 transition-all transform hover:scale-110 float-animation">
+                        <svg id="playIcon" class="w-12 h-12 text-white fill-white" viewBox="0 0 24 24">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                        <svg id="pauseIcon" class="hidden w-12 h-12 text-white fill-white" viewBox="0 0 24 24">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </button>
+                    <p class="absolute bottom-32 text-white text-xs tracking-widest font-semibold opacity-70" id="reelText">PLAY REEL</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 scroll-bounce hidden lg:block">
+            <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="relative w-full bg-red-500 py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left - Image -->
+                <div class="flex items-center justify-center about-image">
+                    <img src="hero-bg.jpg" alt="Ajay B J" class="w-full max-w-md rounded-2xl shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-300">
+                </div>
+
+                <!-- Right - Content -->
+                <div class="space-y-6 about-content">
+                    <div>
+                        <p class="text-white/80 font-semibold text-sm tracking-widest uppercase mb-2">About Me</p>
+                        <h2 class="text-5xl lg:text-6xl font-black text-white">Hello!</h2>
+                    </div>
+
+                    <div class="space-y-4 text-white/90 text-lg leading-relaxed">
+                        <p>
+                            I'm <span class="font-black text-black uppercase">Ajay B J</span>, a FinTech Operations professional with hands-on experience in merchant onboarding, POS setup, and bank integrations.
+                        </p>
+                        <p>
+                            Currently working at Razorpay, handling end-to-end onboarding, MID/TID creation, device mapping, KYC, and compliance validation for major banks.
+                        </p>
+                        <p>
+                            I specialize in driving seamless merchant go-live processes and coordinating across teams to ensure operational excellence.
+                        </p>
+                    </div>
+
+                    <!-- Skills Grid -->
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">PROGRAMMING</p>
+                            <p class="font-bold text-white">SQL, Python</p>
+                        </div>
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">ANALYTICS</p>
+                            <p class="font-bold text-white">Power BI, Tableau</p>
+                        </div>
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">OPERATIONS</p>
+                            <p class="font-bold text-white">POS, Payments</p>
+                        </div>
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">COMPLIANCE</p>
+                            <p class="font-bold text-white">KYC, AML, Risk</p>
+                        </div>
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">TOOLS</p>
+                            <p class="font-bold text-white">Freshdesk, Excel</p>
+                        </div>
+                        <div class="skill-card bg-black/30 rounded-lg p-4 backdrop-blur">
+                            <p class="text-xs font-semibold text-white/70 tracking-widest mb-2">INTEGRATION</p>
+                            <p class="font-bold text-white">Bank APIs, HSM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE SECTION -->
+    <section id="experience" class="relative w-full bg-black py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 experience-header">
+                <p class="text-red-500 font-semibold text-sm tracking-widest uppercase mb-4">Experience</p>
+                <h2 class="text-5xl lg:text-6xl font-black text-white">Work History</h2>
+            </div>
+
+            <!-- Experience Cards -->
+            <div class="space-y-8">
+                <!-- Razorpay -->
+                <div class="group experience-card border border-white/10 rounded-2xl p-8 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:border-red-500/50">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Business Operations</h3>
+                            <p class="text-red-500 font-semibold">Razorpay</p>
+                        </div>
+                        <span class="text-white/50 font-mono text-sm">May 2025 - Present</span>
+                    </div>
+                    <ul class="space-y-3 text-white/80 text-sm">
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Developed comprehensive training documentation reducing support inquiries by 40%</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Managing MID & TID creation, mapping, validation, and configuration</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Performing KYC verification and compliance validation during onboarding</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Troubleshooting MID/TID mismatches, HSM/TSS issues, and device mapping</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- G2 Risk Solutions -->
+                <div class="group experience-card border border-white/10 rounded-2xl p-8 bg-white/5 hover:bg-white/10 transition-all duration-300 hover:border-red-500/50">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Risk Operations</h3>
+                            <p class="text-red-500 font-semibold">G2 Risk Solutions</p>
+                        </div>
+                        <span class="text-white/50 font-mono text-sm">Aug 2024 - Apr 2025</span>
+                    </div>
+                    <ul class="space-y-3 text-white/80 text-sm">
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Monitored merchant transactions for suspicious patterns and TLD detection</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Achieved 7% increase in early detection rate of fraudulent transactions</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Managed global merchant onboarding with KYC and AML compliance</span>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-red-500 mt-1">•</span>
+                            <span>Maintained high SLA and quality standards for risk-related workflows</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS SECTION -->
+    <section id="process" class="relative w-full bg-white py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 process-header">
+                <div class="inline-block mb-4 px-4 py-2 border border-black/20 rounded-full">
+                    <p class="text-black text-sm font-semibold tracking-widest">How I Work</p>
+                </div>
+                <h2 class="text-5xl lg:text-6xl font-black text-black mb-6">My Process</h2>
+                <p class="text-gray-600 text-lg max-w-2xl">Structured approach to delivering exceptional results in operations and compliance</p>
+            </div>
+
+            <!-- Timeline Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Define -->
+                <div class="process-card bg-white border-2 border-black rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-all">
+                    <div class="text-6xl font-black text-black/20 mb-4 serif">01</div>
+                    <h3 class="text-2xl font-bold text-black mb-3">Define</h3>
+                    <p class="text-gray-600">Understand requirements, analyze processes, and identify key operational needs and compliance requirements.</p>
+                </div>
+
+                <!-- Design -->
+                <div class="process-card bg-white border-2 border-black rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-all">
+                    <div class="text-6xl font-black text-black/20 mb-4 serif">02</div>
+                    <h3 class="text-2xl font-bold text-black mb-3">Design</h3>
+                    <p class="text-gray-600">Create strategic solutions, workflows, and operational frameworks tailored to specific needs.</p>
+                </div>
+
+                <!-- Build -->
+                <div class="process-card bg-white border-2 border-black rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-all">
+                    <div class="text-6xl font-black text-black/20 mb-4 serif">03</div>
+                    <h3 class="text-2xl font-bold text-black mb-3">Build</h3>
+                    <p class="text-gray-600">Implement solutions, execute operations, and establish processes with precision and attention to detail.</p>
+                </div>
+
+                <!-- Launch -->
+                <div class="process-card bg-white border-2 border-black rounded-2xl p-8 shadow-lg transform hover:scale-105 transition-all">
+                    <div class="text-6xl font-black text-black/20 mb-4 serif">04</div>
+                    <h3 class="text-2xl font-bold text-black mb-3">Launch</h3>
+                    <p class="text-gray-600">Go-live support, monitoring, continuous optimization, and ensuring seamless operations at scale.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS SECTION -->
+    <section class="relative w-full bg-black py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 projects-header">
+                <p class="text-red-500 font-semibold text-sm tracking-widest uppercase mb-4">Projects</p>
+                <h2 class="text-5xl lg:text-6xl font-black text-white">Featured Work</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card group border border-white/10 rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all">
+                    <div class="h-64 bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+                        <div class="text-center">
+                            <h3 class="text-4xl font-black text-white mb-2">Customer Churn</h3>
+                            <p class="text-white/80">Analysis</p>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-white/80 mb-4">Analyzed 7,043 telecom customers to identify churn patterns. Generated 11 visualizations revealing that 38% of churned users were on monthly contracts with less than 3-month tenure.</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs font-semibold">Python</span>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs font-semibold">Data Analysis</span>
+                            <span class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs font-semibold">Visualization</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card group border border-white/10 rounded-2xl overflow-hidden bg-white/5 hover:bg-white/10 transition-all">
+                    <div class="h-64 bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                        <div class="text-center">
+                            <h3 class="text-4xl font-black text-white mb-2">Sales Dashboard</h3>
+                            <p class="text-white/80">Power BI</p>
+                        </div>
+                    </div>
+                    <div class="p-8">
+                        <p class="text-white/80 mb-4">Queried 25,000+ rows across 12 months and 5 regions. Built 10 dynamic KPIs in Power BI. Detected 14% sales drop post-festival in South region.</p>
+                        <div class="flex gap-2 flex-wrap">
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">SQL</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">Power BI</span>
+                            <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">Dashboard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT MODAL -->
+    <div id="contactModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="relative w-full max-w-md bg-black rounded-2xl overflow-hidden shadow-2xl border border-red-500/30 p-8">
+            <button onclick="document.getElementById('contactModal').style.display='none'" class="absolute top-4 right-4 w-10 h-10 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <h2 class="text-3xl font-black text-white mb-2">Let's Connect</h2>
+            <p class="text-white/70 mb-6">Get in touch for opportunities and collaborations.</p>
+
+            <div class="space-y-4">
+                <a href="tel:+917676353149" class="block w-full px-6 py-4 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition text-center">
+                    📞 +91-7676353149
+                </a>
+                <a href="mailto:ajaybj0204@gmail.com" class="block w-full px-6 py-4 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition text-center border border-white/20">
+                    📧 ajaybj0204@gmail.com
+                </a>
+                <a href="https://linkedin.com/in/ajay-b-j" target="_blank" class="block w-full px-6 py-4 bg-white/10 text-white rounded-lg font-semibold hover:bg-white/20 transition text-center border border-white/20">
+                    🔗 LinkedIn Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="relative w-full bg-black border-t border-white/10 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <p class="text-xs font-mono text-white/50 tracking-widest mb-2">EXPERTISE</p>
+                    <div class="space-y-2 text-white/80">
+                        <p>Payments & POS Operations</p>
+                        <p>Merchant Onboarding</p>
+                        <p>Risk & Compliance</p>
+                        <p>Data Analytics</p>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs font-mono text-white/50 tracking-widest mb-2">EXPERIENCE</p>
+                    <p class="text-white font-bold text-lg">Razorpay</p>
+                    <p class="text-white/70">G2 Risk Solutions</p>
+                </div>
+                <div>
+                    <p class="text-xs font-mono text-white/50 tracking-widest mb-2">LOCATION</p>
+                    <p class="text-white font-bold">Bangalore, India</p>
+                    <p class="text-white/70">Open to WFH Roles</p>
+                </div>
+            </div>
+
+            <div class="border-t border-white/10 pt-8">
+                <div class="text-center">
+                    <p class="text-white/50 text-sm">© 2024 Ajay B J. All rights reserved.</p>
+                    <p class="text-white/50 text-sm mt-2">Payments | Operations | Data | Compliance</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Preloader
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            const preloadFill = document.getElementById('preloadFill');
+            
+            gsap.timeline()
+                .to(preloadFill, { duration: 1.6, backgroundPosition: '0% -100%', ease: 'power2.inOut' }, 0)
+                .to(preloader, { duration: 0.8, y: '-100%', ease: 'power3.inOut' }, 1.8)
+                .set(preloader, { display: 'none' });
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'border-b', 'border-white/10');
+            } else {
+                navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'border-b', 'border-white/10');
+            }
+        });
+
+        // Mobile menu toggle
+        const hamburger = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // ===== PLAY VIDEO FUNCTION (GLOBAL) =====
+        let isPlaying = false;
+
+        function playHeroVideo() {
+            const heroVideo = document.getElementById('heroVideo');
+            const heroBg = document.getElementById('heroBg');
+            const playIcon = document.getElementById('playIcon');
+            const pauseIcon = document.getElementById('pauseIcon');
+            const reelText = document.getElementById('reelText');
+            const overlay = document.getElementById('overlay');
+
+            if (!isPlaying) {
+                // First time - show video and play
+                console.log('Playing video...');
+                heroBg.classList.add('hidden');
+                heroVideo.classList.remove('hidden');
+                heroVideo.play().catch(err => console.log('Play error:', err));
+                
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+                reelText.textContent = 'PAUSE REEL';
+                overlay.style.opacity = '0.2';
+                
+                isPlaying = true;
+            } else {
+                // Already playing - pause it
+                console.log('Pausing video...');
+                heroVideo.pause();
+                
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+                reelText.textContent = 'PLAY REEL';
+                
+                isPlaying = false;
+            }
+        }
+
+        // Initialize video event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            const heroVideo = document.getElementById('heroVideo');
+            
+            if (heroVideo) {
+                // Handle video end
+                heroVideo.addEventListener('ended', () => {
+                    document.getElementById('heroBg').classList.remove('hidden');
+                    heroVideo.classList.add('hidden');
+                    document.getElementById('playIcon').classList.remove('hidden');
+                    document.getElementById('pauseIcon').classList.add('hidden');
+                    document.getElementById('reelText').textContent = 'PLAY REEL';
+                    document.getElementById('overlay').style.opacity = '0.4';
+                    isPlaying = false;
+                });
+            }
+        });
+
+        // Close contact modal on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('contactModal').style.display = 'none';
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ===== PREMIUM SCROLL ANIMATIONS =====
+
+        // ===== ABOUT SECTION - STAGGERED SLIDE & BLUR =====
+        gsap.from('.about-image', {
+            scrollTrigger: {
+                trigger: '#about',
+                start: 'top 60%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            x: -150,
+            filter: 'blur(20px)',
+            duration: 1.2,
+            ease: 'power3.out',
+        });
+
+        gsap.from('.about-content', {
+            scrollTrigger: {
+                trigger: '#about',
+                start: 'top 60%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            x: 150,
+            filter: 'blur(20px)',
+            duration: 1.2,
+            ease: 'power3.out',
+            delay: 0.2,
+        });
+
+        // Skill cards with rotation and spring physics
+        gsap.utils.toArray('.skill-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: '#about',
+                    start: 'top 35%',
+                    toggleActions: 'play none none reverse',
+                },
+                opacity: 0,
+                y: 80,
+                rotation: (index % 2 === 0 ? 15 : -15),
+                scale: 0.6,
+                duration: 0.8,
+                delay: index * 0.12,
+                ease: 'elastic.out(1, 0.5)',
+            });
+        });
+
+        // ===== EXPERIENCE SECTION - FLIP & SLIDE =====
+        gsap.from('.experience-header', {
+            scrollTrigger: {
+                trigger: '#experience',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            y: 50,
+            rotationX: 90,
+            transformOrigin: 'center center',
+            duration: 1,
+            ease: 'back.out',
+        });
+
+        // Experience cards with alternating slide direction and rotation
+        gsap.utils.toArray('.experience-card').forEach((card, index) => {
+            const isEven = index % 2 === 0;
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: '#experience',
+                    start: 'top 45%',
+                    toggleActions: 'play none none reverse',
+                },
+                opacity: 0,
+                x: isEven ? -200 : 200,
+                y: 50,
+                rotation: isEven ? -10 : 10,
+                scale: 0.8,
+                duration: 1,
+                delay: index * 0.25,
+                ease: 'back.out(1.5)',
+            });
+        });
+
+        // ===== PROCESS SECTION - SCALE & BOUNCE =====
+        gsap.from('.process-header', {
+            scrollTrigger: {
+                trigger: '#process',
+                start: 'top 70%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            y: 60,
+            scale: 0.5,
+            duration: 1,
+            ease: 'back.out(2)',
+        });
+
+        // Process cards with complex staggered animations
+        gsap.utils.toArray('.process-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: '#process',
+                    start: 'top 40%',
+                    toggleActions: 'play none none reverse',
+                },
+                opacity: 0,
+                y: 120,
+                scale: 0.3,
+                rotation: (index % 2 === 0 ? 45 : -45),
+                filter: 'blur(15px)',
+                duration: 1.1,
+                delay: index * 0.18,
+                ease: 'back.out(2)',
+            });
+        });
+
+        // ===== PROJECTS SECTION - FLIP CARD EFFECT =====
+        gsap.from('.projects-header', {
+            scrollTrigger: {
+                trigger: '.project-card',
+                start: 'top 85%',
+                toggleActions: 'play none none reverse',
+            },
+            opacity: 0,
+            y: 40,
+            rotationY: -90,
+            transformOrigin: 'center center',
+            duration: 1,
+            ease: 'back.out',
+        });
+
+        // Project cards with flip and slide combination
+        gsap.utils.toArray('.project-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 70%',
+                    toggleActions: 'play none none reverse',
+                },
+                opacity: 0,
+                y: 120,
+                x: index % 2 === 0 ? -100 : 100,
+                rotationY: index % 2 === 0 ? -90 : 90,
+                scale: 0.7,
+                filter: 'blur(20px)',
+                duration: 1.2,
+                ease: 'back.out(1.5)',
+            });
+        });
+
+        // ===== PARALLAX TILT EFFECT =====
+        gsap.utils.toArray('.project-card').forEach((element) => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: 0.5,
+                },
+                y: -50,
+                rotation: 2,
+                duration: 1,
+                ease: 'none',
+            });
+        });
+
+        gsap.utils.toArray('.process-card').forEach((element, index) => {
+            gsap.to(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top center',
+                    end: 'bottom center',
+                    scrub: 0.5,
+                },
+                y: index % 2 === 0 ? -40 : 40,
+                rotation: index % 2 === 0 ? -1 : 1,
+                duration: 1,
+                ease: 'none',
+            });
+        });
+
+        // ===== FADE IN UP WITH BLUR =====
+        gsap.utils.toArray('.fade-in-up').forEach((element) => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse',
+                },
+                opacity: 0,
+                y: 40,
+                filter: 'blur(10px)',
+                duration: 0.9,
+                ease: 'power3.out',
+            });
+        });
+    </script>
+
+</body>
+</html>
